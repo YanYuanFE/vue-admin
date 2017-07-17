@@ -49,7 +49,7 @@ export default {
         cb();
       }
     }
-    let checkPasswordAgain = (rule,vlaue,cb) => {
+    let checkPasswordAgain = (rule,value,cb) => {
       if(!value) {
         return cb(new Error('再次输入密码不能为空！'));
       } else if(value !== this.formLogin.password) {
