@@ -9,7 +9,7 @@ module.exports = {
     next();
   },
   checkNotLogin(req, res, next) {
-    if (!req.session.user) {
+    if (req.session.user) {
       return res.json({
         error: '已登录',
         session: true,

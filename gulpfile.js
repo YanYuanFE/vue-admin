@@ -8,12 +8,13 @@ var server = path.resolve(ROOT, 'server');
 gulp.task('browser-sync', ['nodemon'], function() {
   bs.init(null, {
     proxy: "http://localhost:8080/index.html",
-    port: 4000
+    port: 4000,
+    open: false,//停止自动打开浏览器
   });
 });
 
 gulp.task('server', ['browser-sync'], function() {
-  gulp.watch(['./server.js', './server/**', 'bs-delay']);
+  gulp.watch(['./server.js', './server/**'], ['bs-delay']);
 });
 
 gulp.task('bs-delay', function() {

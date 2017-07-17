@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data(){
     let checkUserName = (rule,value,cb) => {
@@ -78,6 +80,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['userLogin']),
+    
     login() {
       let user = this.formLogin;
       let formData = {

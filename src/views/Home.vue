@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -33,9 +35,40 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    this.$http.get('/api')
+      .then((res) => {
+        console.log(res);
+        if(res.data.error) {
+          this.$message.error(res.data.error);
+          this.user.name = null;
+          return false;
+        } else {
+          let user = localStorage.getItem('user');
+          if(user) {
+            this.user.name = user;
+          }
+        } 
+      })
+      .catch((err) => {
+        this.$message.error(`${err.message}`);
+      })
+  },
   methods: {
+    ...mapActions(['userLoginOut']),
     loginOut(){
-      
+      this.userLoginOut();
+      this.user.name = null;
+      this.$http.get('/api/user')
+        .then((res) => {
+          if(res.data.message) {
+            this.$message.success(res.data.message);
+            return false;
+          }
+        })
+        .catch((err) => {
+          this.$message.error(`${err.message}`);
+        })
     }
   }
 }

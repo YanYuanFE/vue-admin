@@ -12,13 +12,14 @@ Vue.use(Element);
 import axios from './utils/interceptor';
 Vue.prototype.$http = axios;
 
-// import store from './store/index.js';
+import store from './store/index.js';
 
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   template: '<App/>',
   components: { App },

@@ -74,6 +74,32 @@ export default {
   },
   methods:{
     register(){
+      let user = this.formRegister;
+      let formData = {
+        name: user.name,
+        password: user.password,
+      };
+
+      this.$refs['formRegister'].validate((valid) => {
+        if(valid) {
+          this.$http.post('/api/register', formData)
+          .then((res) => {
+            if(res.data.error) {
+              this.$message.error(res.data.error);
+              return false;
+            } else {
+              this.$message.success('注册成功');
+              this.$router.push('/login');
+            }
+          })
+          .catch((err) => {
+            this.$message.error(`${err.message}`);
+          })
+        } else  {
+          this.$message.error('表单验证失败');
+          return false;
+        }
+      })
 
     }
   }

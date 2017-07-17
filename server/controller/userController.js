@@ -13,7 +13,7 @@ const checkNotLogin = require('../middlewares/checkLogin').checkNotLogin;
 
 
 const Register = (req, res) => {
-  let userRegister = new userRegister({
+  let userRegister = new User({
     name: req.body.name,
     password: sha1(req.body.password),
   });
