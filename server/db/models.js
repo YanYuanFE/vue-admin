@@ -10,6 +10,6 @@ const userSchema = mongoose.Schema({
   create_time: Date,
 });
 
-const User = mongoose.module('UserSession', userSchema);
+const User = mongoose.model('UserSession', userSchema);
 
 module.exports = User;

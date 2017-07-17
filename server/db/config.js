@@ -1,3 +1,3 @@
-module.export = {
-  mongodb: 'mongodb://localhost:27017/user',
+module.exports = {
+  url: 'mongodb://localhost:27017/user'
 };

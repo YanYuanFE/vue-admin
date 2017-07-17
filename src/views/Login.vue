@@ -79,10 +79,38 @@ export default {
   },
   methods: {
     login() {
+      let user = this.formLogin;
+      let formData = {
+        name: user.name,
+        password: user.password
+      };
+
+      this.$refs['formLogin'].validate((valid) => {
+        if(valid) {
+          this.$http.post('/api/login', formData)
+            .then((res) => {
+              console.dir(res);
+              if(res.data.success) {
+                this.userLogin(res.data);
+                this.$message.success(`${res.data.message}`)
+                this.$router.push('/');
+              } else {
+                this.$message.error(`${res.data.message}`);
+                return false;
+              }
+            })
+            .catch((err) => {
+              this.$message.error(`${err.message}`, 'ERROR');
+            })
+        } else {
+          this.$message.error('表单验证失败!');
+          return false;
+        }
+      });
 
     },
     resetForm(){
-
+      this.$refs['formLogin'].resetFields();
     }
   }
   

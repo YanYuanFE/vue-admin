@@ -7,6 +7,9 @@ const sha1 = require('sha1');
 const router = express.Router();
 
 const User = require('../db/models');
+const checkLogin = require('../middlewares/checkLogin').checkLogin;
+const checkNotLogin = require('../middlewares/checkLogin').checkNotLogin;
+
 
 
 const Register = (req, res) => {
@@ -51,27 +54,51 @@ const Login = (req, res) => {
     if (!user) {
       res.json({
         success: false,
-        message: '用户名不存在',
-      }),
+        message: "账号不存在"
+      })
     } else if (userLogin.password === user.password) {
       var name = req.body.name;
-      user.password = null,
+      user.password = null;
       req.session.user = user;
       res.json({
         success: true,
-        message: '登录成功',
+        message: "登录成功",
         name: user.name,
-        time: moment(objectIdToTimestamp(user._id)).format('YYYY-MM-DD HH:mm:ss')
+        time: moment(objectIdToTimestamp(user._id))
+          .format('YYYY-MM-DD HH:mm:ss')
       })
     } else {
       res.json({
         success: false,
-        message: '密码错误',
+        message: "密码错误"
       })
     }
+     
   })
-  .catch(err => res.json(err))
+  .catch(err => res.json(err));
 
-  
+}
 
+const getSession = (req,res) => {
+  res.json({
+    session: true,
+  })
+}
+
+const delSession = (req,res) => {
+  User.findOneAndRemove({
+    _id: req.body.id
+  }, err => {
+    if(err) console.log(err);
+    res.json({
+      success: true,
+    })
+  })
+}
+
+module.exports = (router) => {
+  router.post('/register', checkNotLogin, Register),
+  router.post('/login', checkNotLogin, Login),
+  router.get('/user', checkNotLogin, delSession),
+  router.get('/', checkNotLogin, getSession)
 }

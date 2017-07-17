@@ -6,8 +6,12 @@ const mongoose = require('mongoose');
 
 const pkg = require('./package');
 const config = require('./server/db/config');
+const index = require('./server/router/index');
+const user = require('./server/router/user');
 
-const db = mongoose.connect(config.mongodb);
+console.log(config.url)
+const db = mongoose.connect(config.url);
+
 
 db.connection.on('error', function(error) {
   console.log('数据库连接失败：'+ error);
@@ -23,7 +27,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencode({
+app.use(bodyParser.urlencoded({
   extended: true
 }));
 
