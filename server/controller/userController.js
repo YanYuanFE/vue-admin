@@ -99,6 +99,6 @@ const delSession = (req,res) => {
 module.exports = (router) => {
   router.post('/register', checkNotLogin, Register),
   router.post('/login', checkNotLogin, Login),
-  router.get('/user', checkNotLogin, delSession),
-  router.get('/', checkNotLogin, getSession)
+  router.get('/user', checkLogin, delSession),
+  router.get('/', checkLogin, getSession)
 }
